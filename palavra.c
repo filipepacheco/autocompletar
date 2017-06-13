@@ -14,7 +14,7 @@ Palavra* inserePalavra(Palavra* l, dadosPalavra dados){
     novo = malloc(sizeof(Palavra));
     novo->info = dados;
 
-    while ((ptaux != NULL) && (ptaux->info.nome[0] < dados.nome[0])){
+    while ((ptaux != NULL) && (ptaux->info.nome[0] < dados.nome[0]) && (ptaux->info.codigo < dados.codigo)){
         ant = ptaux;
         ptaux = ptaux->proximo;
     }

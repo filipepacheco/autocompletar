@@ -34,6 +34,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="palavra.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="palavra.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
