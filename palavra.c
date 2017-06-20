@@ -1,20 +1,22 @@
+#include "palavra.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "palavra.h"
+#include <string.h>
+#include <time.h>
 
-Palavra* inicializa(void){
+ListaPalavra* inicializaLista(void){
     return NULL;
 }
 
-Palavra* inserePalavra(Palavra* l, dadosPalavra dados){
-    Palavra* novo;
-    Palavra* ant = NULL;
-    Palavra* ptaux = l;
+ListaPalavra* inserePalavra(ListaPalavra* l, Palavra dados){
+    ListaPalavra* novo;
+    ListaPalavra* ant = NULL;
+    ListaPalavra* ptaux = l;
 
-    novo = malloc(sizeof(Palavra));
+    novo = malloc(sizeof(ListaPalavra));
     novo->info = dados;
 
-    while ((ptaux != NULL) && (ptaux->info.nome[0] < dados.nome[0]) && (ptaux->info.codigo < dados.codigo)){
+    while ((ptaux != NULL)){
         ant = ptaux;
         ptaux = ptaux->proximo;
     }
@@ -27,4 +29,12 @@ Palavra* inserePalavra(Palavra* l, dadosPalavra dados){
         ant->proximo = novo;
     }
     return l;
+}
+
+void imprime(ListaPalavra* ptLista){
+	ListaPalavra* ptaux;
+	if (ptLista == NULL)
+		puts("lista vazia");
+	else
+		for (ptaux=ptLista; ptaux!=NULL; ptaux=ptaux->proximo) printf("peso = %.0lf palavra = %s\n",ptaux->info.peso,ptaux->info.palavra);
 }

@@ -1,5 +1,4 @@
-
-comp
 auto
+comp
 the
 xyz
