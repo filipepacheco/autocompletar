@@ -5,78 +5,61 @@
 #include "palavra.h"
 
 
-int main(){
-    //lista de palavras do wiki
-    ListaPalavra *listaWiki = inicializaLista();
-    //lista de palavras de entrada
-    ListaPalavra *listaEntrada = inicializaLista();
-    //arvore de processamento
-    FILE *consulta = fopen("palavras/consulta.txt", "r"), *wiktionary;
-    FILE *saida = fopen("palavras/saida.txt", "w+");
-    Palavra auxWiki, auxIn;
+int main(int argc, char *argv[]){
+    //abre os arquivos de entrada, processamento e saída.
+    FILE *wiktionary = fopen(argv[1], "r");
+    if(!wiktionary){
+        printf("Nao foi possivel abrir o arquivo %s", argv[1]);
+        return 0;
+    }
+    FILE *consulta = fopen(argv[2], "r");
+    if(!consulta){
+        printf("Nao foi possivel abrir o arquivo %s", argv[2]);
+        return 0;
+    }
+    FILE *saida = fopen(argv[3], "w+");
+    if(!saida){
+        printf("Nao foi possivel abrir o arquivo %s", argv[3]);
+        return 0;
+    }
+
+    ListaPalavra *listaEntrada = inicializaLista(); //lista de palavras de entrada
+    Palavra auxWiki;
     char linha1[50], *ptr;
-    double peso;
-    float diff, count = 0, auxcont = 0;
-    int maximo = 5, auxiliar = 0;
-    clock_t t1 = clock(),t2;
+    float auxcont = 0;
+    int auxiliar = 0;
+    int maximo = atoi(argv[4]);
+    clock_t t1 = clock();
 
-    //le o arquivo de entrada
-    if(consulta){
-        auxIn.peso = 0;
-        while(!feof(consulta)){
-            fscanf(consulta, "%s", auxIn.palavra);
-            //organiza a estrutura de lista de entrada
-            listaEntrada = inserePalavra(listaEntrada, auxIn);
+    listaEntrada = preencheListaPalavras(listaEntrada, consulta);
+    //percorre a lista de palavras de entrada
+
+    while(listaEntrada != NULL){
+        fprintf(saida, "%s\n", listaEntrada->info.palavra);
+        //percorre as palavras wiki
+        while(!feof(wiktionary) && auxiliar < maximo){
+            auxcont++;
+            fscanf(wiktionary, "%s %s", linha1, auxWiki.palavra);
+            auxWiki.peso = strtod(linha1, &ptr);
+            //se a lista de entrada dá match na lista wiki
+            if(strncmp(auxWiki.palavra, listaEntrada->info.palavra, strlen(listaEntrada->info.palavra)) == 0){
+                fprintf(saida, "%15.0lf %s\n", auxWiki.peso, auxWiki.palavra);
+                //listaWiki = inserePalavra(listaWiki, auxWiki);
+                auxiliar++;
+            }
         }
-    }else
-        return 0;
+        listaEntrada = listaEntrada->proximo;
+        if(auxiliar == 0){
+            fprintf(saida, "Nenhum resultado encontrado\n");
+        }
 
+        auxiliar = 0;
+        auxcont = 0;
+        rewind(wiktionary);
+    }
+    fprintf(saida, "\nTempo: %lf\n", (double)(clock() - t1) / CLOCKS_PER_SEC);
+    fclose(saida);
+    fclose(wiktionary);
     fclose(consulta);
-    wiktionary = fopen("palavras/wiktionary.txt", "r");
-    //lê a lista de palavras wiki
-    if(wiktionary){
-        //percorre a lista de palavras de entrada
-        while(listaEntrada != NULL){
-            printf("Palavra: %s ", listaEntrada->info.palavra);
-            //percorre as palavras wiki
-            while(!feof(wiktionary) && auxiliar < maximo){
-                count++;
-                auxcont++;
-                fscanf(wiktionary, "%s %s", linha1, auxWiki.palavra);
-                peso = strtod(linha1, &ptr);
-                auxWiki.peso = peso;
-                //se a lista de entrada dá match na lista wiki
-                if(strncmp(auxWiki.palavra, listaEntrada->info.palavra, strlen(listaEntrada->info.palavra)) == 0){
-                    listaWiki = inserePalavra(listaWiki, auxWiki);
-                    auxiliar++;
-                }
-            }
-            listaEntrada = listaEntrada->proximo;
-            auxiliar = 0;
-            printf("cont: %.0f\n", auxcont);
-            auxcont = 0;
-            rewind(wiktionary);
-        }
-        //PreFixadoEsq(arvoreWiki);
-    }
-    else
-        return 0;
-
-    if(saida){
-        //while(listaEntrada != NULL){
-          //  fputs(saida, listaEntrada->info.palavra);
-            while(listaWiki != NULL){
-                fprintf(saida, "%10.0lf %s\n", listaWiki->info.peso, listaWiki->info.palavra);
-                listaWiki = listaWiki->proximo;
-            }
-            //listaEntrada = listaEntrada->proximo;
-        //}
-        fclose(saida);
-    }
-
-    t2 = clock();
-    diff = (((float)t2 - (float)t1) / 1000.0F );
-    printf("Tempo: %fs\ncount: %.0f",diff, count);
-
     return 1;
 }

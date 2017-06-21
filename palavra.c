@@ -31,6 +31,19 @@ ListaPalavra* inserePalavra(ListaPalavra* l, Palavra dados){
     return l;
 }
 
+ListaPalavra *preencheListaPalavras(ListaPalavra *listaEntrada, FILE *consulta){
+    Palavra auxIn;
+
+    auxIn.peso = 0;
+    while(!feof(consulta)){
+        fscanf(consulta, "%s", auxIn.palavra);
+        //organiza a estrutura de lista de entrada
+        listaEntrada = inserePalavra(listaEntrada, auxIn);
+    }
+
+    return listaEntrada;
+}
+
 void imprime(ListaPalavra* ptLista){
 	ListaPalavra* ptaux;
 	if (ptLista == NULL)
