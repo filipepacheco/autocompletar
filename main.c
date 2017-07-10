@@ -4,19 +4,23 @@
 #include <time.h>
 #include "palavra.h"
 
-int main(int argc, char *argv[]){
-    if (argc!=5){
+int main(int argc, char *argv[])
+{
+    if (argc!=5)
+    {
         printf ("Numero incorreto de parametros.\nExemplo de chamada: autocompletar wiktionary.txt consulta.txt saida.txt 5");
         return 0;
     }
     //abre os arquivos de entrada, processamento e saída.
     FILE *wiktionary = fopen(argv[1], "r");
-    if(!wiktionary){
+    if(!wiktionary)
+    {
         printf("Nao foi possivel abrir o arquivo %s", argv[1]);
         return 0;
     }
     FILE *consulta = fopen(argv[2], "r");
-    if(!consulta){
+    if(!consulta)
+    {
         printf("Nao foi possivel abrir o arquivo %s", argv[2]);
         return 0;
     }
@@ -31,7 +35,8 @@ int main(int argc, char *argv[]){
     rewind(consulta);
 
     FILE *saida = fopen(argv[3], "w+");
-    if(!saida){
+    if(!saida)
+    {
         printf("Nao foi possivel abrir o arquivo %s", argv[3]);
         return 0;
     }
