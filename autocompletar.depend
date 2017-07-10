@@ -1,14 +1,15 @@
 # depslib dependency file v1.0
-1498090849 source:c:\users\liipe\desktop\ufrgs\main.c
+1499657550 source:c:\users\liipe\desktop\ufrgs\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 	"palavra.h"
 
-1497918904 c:\users\liipe\desktop\ufrgs\palavra.h
+1499657347 c:\users\liipe\desktop\ufrgs\palavra.h
+	<stdio.h>
 
-1498697267 source:c:\users\liipe\desktop\ufrgs\palavra.c
+1499657351 source:c:\users\liipe\desktop\ufrgs\palavra.c
 	"palavra.h"
 	<stdio.h>
 	<stdlib.h>

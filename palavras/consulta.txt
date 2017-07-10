@@ -1,5 +1,4 @@
-auto
-comp
-the
-auto
+a
+b
 xyz
+c
